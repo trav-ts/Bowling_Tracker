@@ -15,80 +15,35 @@ namespace Scoring
     {
         static void Main(string[] args)
         {
+            Frame[] game = new Frame[11];
 
-        }
-    }
+            game[1] = new Frame(1, null, null);
+            game[2] = new Frame(2, game[1], null);
 
-    public class Frame
-    {
-        private int total;
-        private int firstBall;
-        private int secondBall;
-        private int frameNumber;
-        private bool IsStrike;
-        private bool IsSpare;
-        private List<Frame> Dependants = new List<Frame>();
-        private List<Frame> Dependees = new List<Frame>();
-        private Frame next;
-
-        public int Total {
-            get { return total; }
-            private set { total = value; }
-        }
-
-        public int FirstBall
-        {
-            get { return firstBall; }
-            set
+            for (int i = 3; i <= 10; i++)
             {
-                if (value == 10)
-                {
-                    firstBall = value;
-                    IsStrike = true;
-                    Dependants.Add(next);
-                    Total = 10;
+                game[i] = new Frame(i, game[i - 1], game[i - 2]);
+            }
 
-                    List<Frame> completedDEP = new List<Frame>();
-                    foreach(Frame f in Dependees)
-                    {
-                        f.AddToTotal(10);
-                        completedDEP.Add(f);
-                    }
-
-                    foreach(Frame f in completedDEP)
-                    {
-                        Dependees.Remove(f);
-                    }
-                }
+            for (int i = 1; i < 10; i++)
+            {
+                if(i % 2 == 0)
+                    game[i].FirstBall = 10;
                 else
                 {
-                    Total = value;
-                    List<Frame> completedDEP = new List<Frame>();
-                    foreach (Frame f in Dependees)
-                    {
-                        if (f.IsSpare)
-                        {
-                            f.AddToTotal(value);
-                            completedDEP.Add(f);
-                        }
-                        else 
-                            f.AddToTotal(10);
-                    }
+                    game[i].FirstBall = 9;
+                    game[i].SecondBall = 1;
                 }
+
             }
-        }
+            game[10].FirstBall = 10;
+            game[10].SecondBall = 9;
+            game[10].ThirdBall = 1;
 
-        public Frame(int number, Frame nextFrame)
-        {
-            next = nextFrame;
-            frameNumber = number;
-        }
 
-        public void AddToTotal(int val)
-        {
-            if (val < 0 || val > 10)
-                throw new ArgumentException();
-            total += val;
+            Console.WriteLine(game[1].FrameTotal);
+            Console.WriteLine(game[2].GameTotal);
+            Console.Read();
         }
     }
 }
