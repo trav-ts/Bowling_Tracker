@@ -28,17 +28,17 @@ namespace Scoring
             for (int i = 1; i < 10; i++)
             {
                 if(i % 2 == 0)
-                    game[i].FirstBall = 10;
+                    game[i].FirstThrow = 10;
                 else
                 {
-                    game[i].FirstBall = 9;
-                    game[i].SecondBall = 1;
+                    game[i].FirstThrow = 9;
+                    game[i].SecondThrow = 1;
                 }
 
             }
-            game[10].FirstBall = 10;
-            game[10].SecondBall = 9;
-            game[10].ThirdBall = 1;
+            game[10].FirstThrow = 10;
+            game[10].SecondThrow = 9;
+            game[10].ThirdThrow = 1;
 
 
             Console.WriteLine(game[1].FrameTotal);

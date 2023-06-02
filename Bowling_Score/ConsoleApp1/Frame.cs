@@ -11,14 +11,14 @@ namespace Scoring
     {
         public int frameTotal;
         public int gameTotal;
-        private int firstBall;
-        private int secondBall;
+        private int firstThrow;
+        private int secondThrow;
         public int frameNumber;
         public bool IsStrike;
         public bool IsSpare;
         public bool IsOpen;
         public bool IsTenth;
-        public int thirdBall;
+        public int thirdThrow;
         public Frame last;
         public Frame secondLast;
 
@@ -34,13 +34,13 @@ namespace Scoring
             private set { gameTotal = value; }
         }
 
-        public int FirstBall
+        public int FirstThrow
         {
-            get { return firstBall; }
+            get { return firstThrow; }
             set
             {
-                firstBall = value;
-                if (firstBall == 10) IsStrike = true;
+                firstThrow = value;
+                if (firstThrow == 10) IsStrike = true;
 
                 if (last != null)
                 {
@@ -49,55 +49,55 @@ namespace Scoring
                     {
                         if (secondLast != null && last.IsStrike && secondLast.IsStrike)
                         {
-                            secondLast.frameTotal += firstBall;
-                            secondLast.gameTotal += firstBall;
-                            last.frameTotal += firstBall;
+                            secondLast.frameTotal += firstThrow;
+                            secondLast.gameTotal += firstThrow;
+                            last.frameTotal += firstThrow;
                             last.gameTotal = secondLast.gameTotal + last.frameTotal;
                         }
                         else
                         {
-                            last.frameTotal += firstBall;
-                            last.gameTotal += firstBall;
+                            last.frameTotal += firstThrow;
+                            last.gameTotal += firstThrow;
                         }
 
                     }
 
-                    this.frameTotal = firstBall;
-                    this.gameTotal = last.gameTotal + firstBall;
+                    this.frameTotal = firstThrow;
+                    this.gameTotal = last.gameTotal + firstThrow;
                 }
                 else // First frame instance.
                 {
-                    frameTotal = firstBall;
-                    gameTotal = firstBall;
+                    frameTotal = firstThrow;
+                    gameTotal = firstThrow;
                 }
             }
         }
 
-        public int SecondBall
+        public int SecondThrow
         {
-            get { return secondBall; }
+            get { return secondThrow; }
             set
             {
-                secondBall = value;
+                secondThrow = value;
 
                 if(IsTenth)
                 {
-                    SecondBallTenth(secondBall);
+                    SecondThrowTenth(secondThrow);
                     return;
                 }
 
                 if (IsStrike)
                 {
-                    secondBall = 0;
+                    secondThrow = 0;
                     return;
                 }
                 else if (last != null && last.IsStrike)
                 {
-                    last.frameTotal += secondBall;
-                    last.gameTotal += secondBall;
+                    last.frameTotal += secondThrow;
+                    last.gameTotal += secondThrow;
                 }
 
-                frameTotal = secondBall + firstBall;
+                frameTotal = secondThrow + firstThrow;
                 if (last != null) gameTotal = last.gameTotal + frameTotal;
                 else
                     gameTotal = frameTotal;
@@ -108,36 +108,36 @@ namespace Scoring
             }
         }
 
-        public void SecondBallTenth(int value)
+        public void SecondThrowTenth(int value)
         {
-            secondBall = value;
+            secondThrow = value;
 
             if (last.IsStrike)
             {
-                last.frameTotal += secondBall;
-                last.gameTotal += secondBall;
-                this.frameTotal += secondBall;
+                last.frameTotal += secondThrow;
+                last.gameTotal += secondThrow;
+                this.frameTotal += secondThrow;
                 this.gameTotal = last.gameTotal + frameTotal;
                 return;
             }
-            else if(firstBall + secondBall != 10 && firstBall != 10) IsOpen = true;
+            else if(firstThrow + secondThrow != 10 && firstThrow != 10) IsOpen = true;
             
-            frameTotal = firstBall + secondBall;
-            gameTotal += secondBall;
+            frameTotal = firstThrow + secondThrow;
+            gameTotal += secondThrow;
         }
 
-        public int ThirdBall
+        public int ThirdThrow
         {
-            get { return thirdBall; }
+            get { return thirdThrow; }
             set
             {
-                thirdBall = value;
+                thirdThrow = value;
 
                 if (IsOpen)
                     return;
                 
-                frameTotal += thirdBall;
-                gameTotal += thirdBall;
+                frameTotal += thirdThrow;
+                gameTotal += thirdThrow;
             }
         }
 
@@ -148,8 +148,8 @@ namespace Scoring
             frameNumber = number;
             GameTotal = 0;
             frameTotal = 0;
-            firstBall = 0;
-            secondBall = 0;
+            firstThrow = 0;
+            secondThrow = 0;
             IsSpare = false;
             IsStrike = false;
             IsOpen = false;
